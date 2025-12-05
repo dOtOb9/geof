@@ -8,32 +8,35 @@ fn main() {
 
     let mut block_list = Vec::<Block>::new();
 
-    let mut alpha_s = [62.8, 44.6, 33.0, 24.0, 17.0, 8.9, 2.2, 16.0, 21.1, 34.0];
-    for i in 0..10 {
+    let mut alpha_s = [-46., -23., -13., -6., -1., -1., 0., 8.];
+    for i in 0..8 {
         alpha_s[i] = alpha_s[i] / 360.0 * 2.0 * std::f64::consts::PI;
     }
 
-    let hs = [35.2, 33.3, 31.8, 42.3, 42.1, 41.6, 42.3, 42.0, 41.3, 37.0];
+    let hs = [35.8, 34.5, 33.7, 33.3, 33.2, 33.0, 33.0, 33.5];
 
+    let width = (35. - 20.) / 8.0;
 
-    for i in 0..10 {
+    for i in 0..8 {
         block_list.push(Block {
             phi: 0.,
             alpha: alpha_s[i],
-            b: (40. - 15.) / 10.0,
+            b: width,
             c: get_c_from_height(hs[i]),
-            w: hs[i] * get_weight_from_hight(hs[i]),
+            w: calculate_w(hs[i]),
         });
     }
 
     let pre_safety_factor = SafetyFactor {
-        safety_factor: 200.0,
+        safety_factor: 1.8,
         blocks: block_list,
     };
 
-    let estated_safety_factor = pre_safety_factor.estate().estate();
+    let estated_safety_factor = pre_safety_factor.estate();
 
     println!("safety factor: {}", estated_safety_factor);
+
+    return;
 
     let sample_height = [34.0, 31.0, 28.0, 23.0, 22.0, 20.0, 18.0];
     for h in sample_height {
@@ -43,6 +46,18 @@ fn main() {
 
         println!("height: {}\t e: {}", h, e);
     }
+}
+
+fn calculate_w(h: f64) -> f64 {
+    let mut w = 0.0;
+
+    let mut i = 0.0;
+    while i <= h {
+        w += get_weight_from_hight(37.-i);
+        i += 0.1;
+    }
+    
+    return w / 10.;
 }
 
 fn get_w_from_hight(h: f64) -> f64 {
@@ -75,11 +90,11 @@ fn get_weight_from_hight(h: f64) -> f64 {
 fn get_c_from_height(h: f64) -> f64 {
     // 土の粘着力 kPa
     match h {
-        h if h >= 34.0 => 50.0 / 2.,
-        h if h >= 31.0 => 20.0 / 2.,
-        h if h >= 23.0 => 20.0 / 2.,
-        h if h >= 22.0 => 30.0 / 2.,
-        h if h >= 20.0 => 40.0 / 2.,
-        _ => 55.0 / 2.,
+        h if h >= 34.0 => 40.0,
+        h if h >= 31.0 => 20.0,
+        h if h >= 23.0 => 20.0,
+        h if h >= 22.0 => 30.0,
+        h if h >= 20.0 => 40.0,
+        _ => 55.0,
     }
 }
