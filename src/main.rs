@@ -35,17 +35,6 @@ fn main() {
     let estated_safety_factor = pre_safety_factor.estate();
 
     println!("safety factor: {}", estated_safety_factor);
-
-    return;
-
-    let sample_height = [34.0, 31.0, 28.0, 23.0, 22.0, 20.0, 18.0];
-    for h in sample_height {
-        let gamma_d = get_weight_from_hight(h) / (1.0 + get_w_from_hight(h));
-
-        let e = 2.65 * 9.81 / gamma_d - 1.0;
-
-        println!("height: {}\t e: {}", h, e);
-    }
 }
 
 fn calculate_w(h: f64) -> f64 {
@@ -58,20 +47,6 @@ fn calculate_w(h: f64) -> f64 {
     }
     
     return w / 10.;
-}
-
-fn get_w_from_hight(h: f64) -> f64 {
-    // 土の含水比 %
-    match h {
-        h if h >= 34.0 => 0.40,
-        h if h >= 31.0 => 1.10,
-        h if h >= 28.0 => 1.05,
-        h if h >= 26.0 => 0.50,
-        h if h >= 23.0 => 0.60,
-        h if h >= 22.0 => 0.40,
-        h if h >= 18.0 => 0.40,
-        _ => 0.40,
-    }
 }
 
 fn get_weight_from_hight(h: f64) -> f64 {
