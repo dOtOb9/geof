@@ -31,7 +31,7 @@ impl SafetyFactorTrait for SafetyFactor {
 
         }
 
-        return SafetyFactor {
+        SafetyFactor {
             safety_factor: (upper_value / lower_value).abs(),
             blocks: self.blocks.clone(),
         };

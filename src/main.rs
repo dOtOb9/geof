@@ -46,7 +46,7 @@ fn calculate_w(h: f64) -> f64 {
         i += 0.1;
     }
     
-    return w / 10.;
+    w / 10.;
 }
 
 fn get_weight_from_hight(h: f64) -> f64 {
